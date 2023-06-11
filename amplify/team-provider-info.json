@@ -14,6 +14,25 @@
     "categories": {
       "auth": {
         "ApptistV2": {}
+      },
+      "function": {
+        "InstructorDashboardAPIHandler": {
+          "deploymentBucketName": "amplify-apptistv2-dev-144445-deployment",
+          "s3Key": "amplify-builds/InstructorDashboardAPIHandler-697771474d516f752f59-build.zip"
+        },
+        "StudentDashboardAPIHandler": {
+          "deploymentBucketName": "amplify-apptistv2-dev-144445-deployment",
+          "s3Key": "amplify-builds/StudentDashboardAPIHandler-7330323053674a777132-build.zip"
+        },
+        "SiteHomeAPIHandler": {
+          "deploymentBucketName": "amplify-apptistv2-dev-144445-deployment",
+          "s3Key": "amplify-builds/SiteHomeAPIHandler-43316f55624c59744737-build.zip"
+        }
+      },
+      "api": {
+        "InstructorDashboardAPI": {},
+        "StudentDashboardAPI": {},
+        "NonRegisteredUsersAPIs": {}
       }
     }
   }

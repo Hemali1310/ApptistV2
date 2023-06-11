@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "paths": {
+    "/studentDashboard/{studentID}": {
+      "name": "/studentDashboard/{studentID}",
+      "lambdaFunction": "StudentDashboardAPIHandler",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}

@@ -1,5 +1,6 @@
 /node_modules
 /dist
+models.txt
 
 #amplify-do-not-edit-begin
 amplify/\#current-cloud-backend

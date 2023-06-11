@@ -12,7 +12,27 @@ import {
 import { InstructorHeader } from "../../instructor/header";
 import InstructorSidebar from "../sidebar";
 
+import { API } from "aws-amplify";
+import { InstructorDashboardAPI } from "../../../api/InstructorAPIs";
+
 export const Dashboard = () => {
+
+  const [instructorInfo, setInstructorInfo] = useState(null);
+
+  useEffect(() => {
+    fetchInstructorDashboardPageData();
+  },[]);
+
+  const fetchInstructorDashboardPageData = async () => {
+    try {
+      const data = await API.get(InstructorDashboardAPI.apiName, InstructorDashboardAPI.path+" "+1);
+      // const data = await API.get("InstructorDashboardAPI", "/instructorDashboard/"+" "+1);
+      setInstructorInfo(data);
+    } catch (error) {
+      console.log(error.response);
+    }
+  }
+
   const [initialState, setinitialState] = useState({
     series: [
       {
@@ -219,162 +239,199 @@ export const Dashboard = () => {
       },
     },
   });
-  return (
-    <div className="main-wrapper">
-      <InstructorHeader activeMenu={"Dashboard"} />
-      <div className="page-content instructor-page-content">
-        <div className="container">
-          <div className="row">
-            {/* Sidebar */}
-            <InstructorSidebar activeMenu={"Dashboard"} />
-            {/* Sidebar */}
 
-            {/* Instructor Dashboard */}
-            <div className="col-xl-9 col-lg-8 col-md-12">
+  return (
+    <>{
+      instructorInfo==null ? (
+        <h1>Loading...</h1>
+      ):(
+        <div className="main-wrapper">
+          <InstructorHeader activeMenu={"Dashboard"} instructorInfo={instructorInfo}/>
+          <div className="page-content instructor-page-content">
+            <div className="container">
               <div className="row">
-                <div className="col-md-4 d-flex">
-                  <div className="card instructor-card w-100">
-                    <div className="card-body">
-                      <div className="instructor-inner">
-                        <h6>REVENUE</h6>
-                        <h4 className="instructor-text-success">$467.34</h4>
-                        <p>Earning this month</p>
+                {/* Sidebar */}
+                <InstructorSidebar activeMenu={"Dashboard"} instructorInfo={instructorInfo}/>
+                {/* Sidebar */}
+
+                {/* Instructor Dashboard */}
+                <div className="col-xl-9 col-lg-8 col-md-12">
+                  <div className="row">
+                    <div className="col-md-4 d-flex">
+                      <div className="card instructor-card w-100">
+                        <div className="card-body">
+                          <div className="instructor-inner">
+                            <h6>REVENUE</h6>
+                            <h4 className="instructor-text-success">${instructorInfo.revenueThisMonth}</h4>
+                            <p>Earning this month</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-md-4 d-flex">
+                      <div className="card instructor-card w-100">
+                        <div className="card-body">
+                          <div className="instructor-inner">
+                            <h6>STUDENTS ENROLLMENTS</h6>
+                            <h4 className="instructor-text-info">{instructorInfo.newStudentEnrollments}</h4>
+                            <p>New this month</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-md-4 d-flex">
+                      <div className="card instructor-card w-100">
+                        <div className="card-body">
+                          <div className="instructor-inner">
+                            <h6>COURSES RATING</h6>
+                            <h4 className="instructor-text-warning">{instructorInfo.overallCoursesRating}</h4>
+                            <p>Rating this month</p>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="col-md-4 d-flex">
-                  <div className="card instructor-card w-100">
-                    <div className="card-body">
-                      <div className="instructor-inner">
-                        <h6>STUDENTS ENROLLMENTS</h6>
-                        <h4 className="instructor-text-info">12,000</h4>
-                        <p>New this month</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-4 d-flex">
-                  <div className="card instructor-card w-100">
-                    <div className="card-body">
-                      <div className="instructor-inner">
-                        <h6>COURSES RATING</h6>
-                        <h4 className="instructor-text-warning">4.80</h4>
-                        <p>Rating this month</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-md-12">
-                  <div className="settings-widget">
-                    <div className="settings-inner-blk p-0">
-                      <div className="sell-course-head comman-space">
-                        <h3>Best Selling Courses</h3>
-                      </div>
-                      <div className="comman-space pb-0">
-                        <div className="settings-tickets-blk course-instruct-blk table-responsive">
-                          {/* Referred Users */}
-                          <table className="table table-nowrap mb-0">
-                            <thead>
-                              <tr>
-                                <th>COURSES</th>
-                                <th>SALES</th>
-                                <th>AMOUNT</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td>
-                                  <div className="sell-table-group d-flex align-items-center">
-                                    <div className="sell-group-img">
-                                      <Link to="course-details">
-                                        <img
-                                          src={Course10}
-                                          className="img-fluid "
-                                          alt=""
-                                        />
-                                      </Link>
-                                    </div>
-                                    <div className="sell-tabel-info">
-                                      <p>
-                                        <Link to="course-details">
-                                          Information About UI/UX Design Degree
-                                        </Link>
-                                      </p>
-                                    </div>
-                                  </div>
-                                </td>
-                                <td>34</td>
-                                <td>$3,145.23</td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  <div className="sell-table-group d-flex align-items-center">
-                                    <div className="sell-group-img">
-                                      <Link to="course-details">
-                                        <img
-                                          src={Course11}
-                                          className="img-fluid "
-                                          alt=""
-                                        />
-                                      </Link>
-                                    </div>
-                                    <div className="sell-tabel-info">
-                                      <p>
-                                        <Link to="course-details">
-                                          Wordpress for Beginners - Master
-                                          Wordpress Quickly
-                                        </Link>
-                                      </p>
-                                    </div>
-                                  </div>
-                                </td>
-                                <td>34</td>
-                                <td>$3,145.23</td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  <div className="sell-table-group d-flex align-items-center">
-                                    <div className="sell-group-img">
-                                      <Link to="course-details">
-                                        <img
-                                          src={Course12}
-                                          className="img-fluid "
-                                          alt=""
-                                        />
-                                      </Link>
-                                    </div>
-                                    <div className="sell-tabel-info">
-                                      <p>
-                                        <Link to="course-details">
-                                          Sketch from A to Z (2022): Become an
-                                          app designer
-                                        </Link>
-                                      </p>
-                                    </div>
-                                  </div>
-                                </td>
-                                <td>34</td>
-                                <td>$3,145.23</td>
-                              </tr>
-                            </tbody>
-                          </table>
-                          {/* Referred Users */}
+                  <div className="row">
+                    <div className="col-md-12">
+                      <div className="settings-widget">
+                        <div className="settings-inner-blk p-0">
+                          <div className="sell-course-head comman-space">
+                            <h3>Best Selling Courses</h3>
+                          </div>
+                          <div className="comman-space pb-0">
+                            <div className="settings-tickets-blk course-instruct-blk table-responsive">
+                              {/* Referred Users */}
+                              <table className="table table-nowrap mb-0">
+                                <thead>
+                                  <tr>
+                                    <th>COURSES</th>
+                                    <th>SALES</th>
+                                    <th>AMOUNT</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {
+                                    instructorInfo.publishedCourses.map((course, index) => {
+                                      return (
+                                        <tr key={index}>
+                                          <td>
+                                            <div className="sell-table-group d-flex align-items-center">
+                                              <div className="sell-group-img">
+                                                <Link to="course-details">
+                                                  <img
+                                                    src={course.courseTitleImageURL}
+                                                    className="img-fluid "
+                                                    alt=""
+                                                  />
+                                                </Link>
+                                              </div>
+                                              <div className="sell-tabel-info">
+                                                <p>
+                                                  <Link to="course-details">
+                                                    {course.courseTitle}
+                                                  </Link>
+                                                </p>
+                                              </div>
+                                            </div>
+                                          </td>
+                                          <td>{course.courseSales}</td>
+                                          <td>${course.courseAmount}</td>
+                                        </tr>
+                                      );
+                                    })
+                                  }
+                                  {/* <tr>
+                                    <td>
+                                      <div className="sell-table-group d-flex align-items-center">
+                                        <div className="sell-group-img">
+                                          <Link to="course-details">
+                                            <img
+                                              src={Course10}
+                                              className="img-fluid "
+                                              alt=""
+                                            />
+                                          </Link>
+                                        </div>
+                                        <div className="sell-tabel-info">
+                                          <p>
+                                            <Link to="course-details">
+                                              Information About UI/UX Design Degree
+                                            </Link>
+                                          </p>
+                                        </div>
+                                      </div>
+                                    </td>
+                                    <td>34</td>
+                                    <td>$3,145.23</td>
+                                  </tr>
+                                  <tr>
+                                    <td>
+                                      <div className="sell-table-group d-flex align-items-center">
+                                        <div className="sell-group-img">
+                                          <Link to="course-details">
+                                            <img
+                                              src={Course11}
+                                              className="img-fluid "
+                                              alt=""
+                                            />
+                                          </Link>
+                                        </div>
+                                        <div className="sell-tabel-info">
+                                          <p>
+                                            <Link to="course-details">
+                                              Wordpress for Beginners - Master
+                                              Wordpress Quickly
+                                            </Link>
+                                          </p>
+                                        </div>
+                                      </div>
+                                    </td>
+                                    <td>34</td>
+                                    <td>$3,145.23</td>
+                                  </tr>
+                                  <tr>
+                                    <td>
+                                      <div className="sell-table-group d-flex align-items-center">
+                                        <div className="sell-group-img">
+                                          <Link to="course-details">
+                                            <img
+                                              src={Course12}
+                                              className="img-fluid "
+                                              alt=""
+                                            />
+                                          </Link>
+                                        </div>
+                                        <div className="sell-tabel-info">
+                                          <p>
+                                            <Link to="course-details">
+                                              Sketch from A to Z (2022): Become an
+                                              app designer
+                                            </Link>
+                                          </p>
+                                        </div>
+                                      </div>
+                                    </td>
+                                    <td>34</td>
+                                    <td>$3,145.23</td>
+                                  </tr> */}
+                                </tbody>
+                              </table>
+                              {/* Referred Users */}
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
+                {/* Instructor Dashboard */}
+
+                <Footer />
               </div>
             </div>
-            {/* Instructor Dashboard */}
-
-            <Footer />
           </div>
         </div>
-      </div>
-    </div>
+      )
+    }</>
   );
 };

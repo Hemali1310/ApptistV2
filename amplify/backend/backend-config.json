@@ -1,4 +1,48 @@
 {
+  "api": {
+    "InstructorDashboardAPI": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "InstructorDashboardAPIHandler"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    },
+    "NonRegisteredUsersAPIs": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "SiteHomeAPIHandler"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    },
+    "StudentDashboardAPI": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "StudentDashboardAPIHandler"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    }
+  },
   "auth": {
     "ApptistV2": {
       "customAuth": false,
@@ -31,6 +75,73 @@
       },
       "providerPlugin": "awscloudformation",
       "service": "Cognito"
+    }
+  },
+  "function": {
+    "InstructorDashboardAPIHandler": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "SiteHomeAPIHandler": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "StudentDashboardAPIHandler": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_InstructorDashboardAPIHandler_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "InstructorDashboardAPIHandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_InstructorDashboardAPIHandler_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "InstructorDashboardAPIHandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_SiteHomeAPIHandler_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "SiteHomeAPIHandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_SiteHomeAPIHandler_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "SiteHomeAPIHandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_StudentDashboardAPIHandler_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "StudentDashboardAPIHandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_StudentDashboardAPIHandler_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "StudentDashboardAPIHandler"
+        }
+      ]
     }
   }
 }
