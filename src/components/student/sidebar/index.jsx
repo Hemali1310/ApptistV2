@@ -10,24 +10,24 @@ import {
 import { Link } from "react-router-dom";
 import { ProfileBg, User11 } from "../../imagepath";
 
-export default function StudentSideBar({ activeMenu }) {
+export default function StudentSideBar({ activeMenu, studentInfo }) {
   return (
     <div className="col-xl-3 col-md-4 theiaStickySidebar">
       <div className="settings-widget dash-profile mb-3">
         <div className="settings-menu p-0">
           <div className="profile-bg">
-            <h5>Beginner</h5>
+            <h5>{studentInfo.studentLevel}</h5>
             <img src={ProfileBg} alt="" />
             <div className="profile-img">
               <Link to="#">
-                <img src={User11} alt="" />
+                <img src={studentInfo.studentImage} alt="" />
               </Link>
             </div>
           </div>
           <div className="profile-group">
             <div className="profile-name text-center">
               <h4>
-                <Link to="#">Hemali Solanki</Link>
+                <Link to="#">{studentInfo.studentFirstName+" "+studentInfo.studentLastName}</Link>
               </h4>
               <p>Student</p>
             </div>

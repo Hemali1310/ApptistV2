@@ -7,7 +7,7 @@ import {
   User11,
 } from "../../imagepath";
 
-export default function StudentHeader({ activeMenu }) {
+export default function StudentHeader({ activeMenu, studentInfo }) {
   const [navbar, setNavbar] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
 
@@ -109,7 +109,7 @@ export default function StudentHeader({ activeMenu }) {
                   onClick={profileClick}
                 >
                   <span className="user-img">
-                    <img src={User11} alt="" />
+                    <img src={studentInfo.studentImage} alt="" />
                     <span className="status online"></span>
                   </span>
                 </Link>
@@ -125,14 +125,14 @@ export default function StudentHeader({ activeMenu }) {
                   <div className="user-header">
                     <div className="avatar avatar-sm">
                       <img
-                        src={User11}
+                        src={studentInfo.studentImage}
                         alt="User Image"
                         className="avatar-img rounded-circle"
                       />
                     </div>
                     <div className="user-text">
-                      <h6>Hemali Solanki</h6>
-                      <p className="text-muted text mb-0">Student</p>
+                      <h6>{studentInfo.studentFirstName+" "+studentInfo.studentLastName}</h6>
+                      <p className="text-muted text mb-0">{studentInfo.studentLevel}</p>
                     </div>
                   </div>
                   <Link

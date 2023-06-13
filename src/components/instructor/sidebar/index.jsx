@@ -19,7 +19,7 @@ import {
 import { Link } from "react-router-dom";
 import { InstructorProfileBg, User15 } from "../../imagepath";
 
-export default function InstructorSidebar({ activeMenu }) {
+export default function InstructorSidebar({ activeMenu, instructorInfo }) {
   return (
     <div className="col-xl-3 col-lg-4 col-md-12 theiaStickySidebar">
       <div className="sideStickyBar">
@@ -30,14 +30,14 @@ export default function InstructorSidebar({ activeMenu }) {
               <img src={InstructorProfileBg} alt="" />
               <div className="profile-img">
                 <Link to="#">
-                  <img src={User15} alt="" />
+                  <img src={instructorInfo.instructorImageURL} alt="" />
                 </Link>
               </div>
             </div>
             <div className="profile-group">
               <div className="profile-name text-center">
                 <h4>
-                  <Link to="#">Jenny Wilson</Link>
+                  <Link to="#">{instructorInfo.instructorFirstName+" "+instructorInfo.instructorLastName}</Link>
                 </h4>
                 <p>Instructor</p>
               </div>
