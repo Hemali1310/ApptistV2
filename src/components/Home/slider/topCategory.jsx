@@ -12,7 +12,7 @@ import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
 import { Link } from "react-router-dom";
 
-const TopCategory = () => {
+const TopCategory = ({ courseList }) => {
   var settings = {
     //autoWidth: true,
     items: 2,
@@ -70,7 +70,27 @@ const TopCategory = () => {
           margin={10}
           nav
         >
-          <div className="feature-box text-center ">
+          {
+            courseList.map((course, index) => {
+              return (
+                <div className="feature-box text-center " key={index}>
+                  <div className="feature-bg">
+                    <div className="feature-header">
+                      {/* <div className="feature-icon"> */}
+                      <div>
+                        <img src={course.courseImage} alt="" />
+                      </div>
+                      <div className="feature-cont">
+                        <div className="feature-text">{course.courseTitle}</div>
+                      </div>
+                    </div>
+                    <p>{course.instructorName}</p>
+                  </div>
+                </div>
+              );
+            })
+          }
+          {/* <div className="feature-box text-center ">
             <div className="feature-bg">
               <div className="feature-header">
                 <div className="feature-icon">
@@ -267,7 +287,7 @@ const TopCategory = () => {
               </div>
               <p>30 Instructors</p>
             </div>
-          </div>
+          </div> */}
         </OwlCarousel>
       </div>
     </section>

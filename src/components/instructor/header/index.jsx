@@ -8,7 +8,7 @@ import {
   User15,
 } from "../../imagepath";
 
-export function InstructorHeader({ activeMenu }) {
+export function InstructorHeader({ activeMenu, instructorInfo }) {
   const [navbar, setNavbar] = useState(false);
 
   const [showCart, setShowCart] = useState(false);
@@ -61,6 +61,7 @@ export function InstructorHeader({ activeMenu }) {
       setNavbar(false);
     }
   };
+
   window.addEventListener("scroll", changeHeaderBackground);
 
   return (
@@ -116,7 +117,7 @@ export function InstructorHeader({ activeMenu }) {
                   onClick={profileClick}
                 >
                   <span className="user-img">
-                    <img src={ProfileAvatar} alt="" />
+                    <img src={instructorInfo.instructorImageURL} alt="" />
                     <span className="status online"></span>
                   </span>
                 </Link>
@@ -132,13 +133,13 @@ export function InstructorHeader({ activeMenu }) {
                   <div className="user-header">
                     <div className="avatar avatar-sm">
                       <img
-                        src={User15}
+                        src={instructorInfo.instructorImage}
                         alt="User Image"
                         className="avatar-img rounded-circle"
                       />
                     </div>
                     <div className="user-text">
-                      <h6>Jenny Wilson</h6>
+                      <h6>{instructorInfo.instructorFirstName + " " + instructorInfo.instructorLastName}</h6>
                       <p className="text-muted text mb-0">Instructor</p>
                     </div>
                   </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import StudentHeader from "../header";
 import Footer from "../../footer";
 import { User11 } from "../../imagepath";
@@ -6,14 +6,34 @@ import { Link } from "react-router-dom";
 import StudentSideBar from "../sidebar";
 import Select from "react-select";
 
+import { StudentDashboardAPI } from "../../../api/StudentAPIs";
+import { API } from "aws-amplify";
+
 export default function StudentEditProfile() {
   const [country, setCountry] = useState(null);
+  
+  const [studentInfo, setStudentInfo] = useState(null);
+
+  useEffect(()=>{
+    fetchStudentDashboardPageData();
+  }, []);
+
+  const fetchStudentDashboardPageData = async () => {
+    try {
+      const data = await API.get(StudentDashboardAPI.apiName, StudentDashboardAPI.path + 1);
+      setStudentInfo(data);
+    } catch (error) {
+      console.log(error.response);
+    }
+  }
+
   const options = [
     { label: "Select Country", value: "Country" },
     { label: "India", value: "India" },
     { label: "America", value: "America" },
     { label: "London", value: "London" },
   ];
+
   const style = {
     control: (baseStyles, state) => ({
       ...baseStyles,
@@ -57,184 +77,198 @@ export default function StudentEditProfile() {
     }),
   };
   return (
-    <div className="main-wrapper">
-      <StudentHeader activeMenu={"Profile"} />
-      {/* Student Dashboard */}
-      <div className="page-content">
-        <div className="container">
-          <div className="row">
-            {/* Sidebar */}
-            <StudentSideBar activeMenu="EditProfile" />
-            {/* Sidebar */}
-
-            {/* Profile Details */}
-            <div className="col-xl-9 col-md-8">
-              <div className="settings-widget profile-details">
-                <div className="settings-menu p-0">
-                  <div className="profile-heading">
-                    <h3>Profile Details</h3>
-                 </div>
-                  <div className="course-group mb-0 d-flex">
-                    <div className="course-group-img d-flex align-items-center">
-                      <Link to="student-profile">
-                        <img src={User11} alt="" className="img-fluid" />
-                      </Link>
-                      <div className="course-name">
-                        <h4>
-                          <Link to="student-profile">Profile Photo</Link>
-                        </h4>
-                      </div>
+    <>
+      {studentInfo==null ? (
+          <h1>Loading...</h1>
+        ):(
+        <div className="main-wrapper">
+          <StudentHeader activeMenu={"Profile"} studentInfo={studentInfo}/>
+          {/* Student Dashboard */}
+          <div className="page-content">
+            <div className="container">
+              <div className="row">
+                {/* Sidebar */}
+                <StudentSideBar activeMenu="EditProfile" studentInfo={studentInfo}/>
+                {/* Sidebar */}
+    
+                {/* Profile Details */}
+                <div className="col-xl-9 col-md-8">
+                  <div className="settings-widget profile-details">
+                    <div className="settings-menu p-0">
+                      <div className="profile-heading">
+                        <h3>Profile Details</h3>
                     </div>
-                    <div className="profile-share d-flex align-items-center justify-content-center">
-                      <Link to="#;" className="btn btn-success">
-                        Update
-                      </Link>
-                      <Link to="#;" className="btn btn-danger">
-                        Delete
-                      </Link>
-                    </div>
-                  </div>
-                  <div className="checkout-form personal-address add-course-info ">
-                    <div className="personal-info-head">
-                      <h4>Personal Details</h4>
-                      <p>Edit your personal information and address.</p>
-                    </div>
-                    <form action="#">
-                      <div className="row">
-                        <div className="col-lg-6">
-                          <div className="form-group">
-                            <label className="form-control-label">
-                              First Name
-                            </label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              placeholder="Enter your first Name"
-                            />
+                      <div className="course-group mb-0 d-flex">
+                        <div className="course-group-img d-flex align-items-center">
+                          <Link to="student-profile">
+                            <img src={studentInfo.studentImage} alt="" className="img-fluid" />
+                          </Link>
+                          <div className="course-name">
+                            <h4>
+                              <Link to="student-profile">Profile Photo</Link>
+                            </h4>
                           </div>
                         </div>
-                        <div className="col-lg-6">
-                          <div className="form-group">
-                            <label className="form-control-label">
-                              Last Name
-                            </label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              placeholder="Enter your last Name"
-                            />
-                          </div>
-                        </div>
-                        <div className="col-lg-6">
-                          <div className="form-group">
-                            <label className="form-control-label">Phone</label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              placeholder="Enter your Phone"
-                            />
-                          </div>
-                        </div>
-                        <div className="col-lg-6">
-                          <div className="form-group">
-                            <label className="form-control-label">Email</label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              placeholder="Enter your Email"
-                            />
-                          </div>
-                        </div>
-                        <div className="col-lg-6">
-                          <div className="form-group">
-                            <label className="form-control-label">
-                              Birthday
-                            </label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              placeholder="Birth of Date"
-                            />
-                          </div>
-                        </div>
-                        <div className="col-lg-6">
-                          <div className="form-group">
-                            <label className="form-label">Country</label>
-
-                            <Select
-                              className=" select country-select"
-                              name="sellist1"
-                              options={options}
-                              defaultValue={options[0]}
-                              placeholder="Select Country"
-                              onChange={setCountry}
-                              styles={style}
-                            ></Select>
-                          </div>
-                        </div>
-                        <div className="col-lg-6">
-                          <div className="form-group">
-                            <label className="form-control-label">
-                              Address Line 1
-                            </label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              placeholder="Address"
-                            />
-                          </div>
-                        </div>
-                        <div className="col-lg-6">
-                          <div className="form-group">
-                            <label className="form-control-label">
-                              Address Line 2 (Optional)
-                            </label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              placeholder="Address"
-                            />
-                          </div>
-                        </div>
-                        <div className="col-lg-6">
-                          <div className="form-group">
-                            <label className="form-control-label">City</label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              placeholder="Enter your City"
-                            />
-                          </div>
-                        </div>
-                        <div className="col-lg-6">
-                          <div className="form-group">
-                            <label className="form-control-label">
-                              ZipCode
-                            </label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              placeholder="Enter your Zipcode"
-                            />
-                          </div>
-                        </div>
-                        <div className="update-profile">
-                          <button type="button" className="btn btn-primary">
-                            Update Profile
-                          </button>
+                        <div className="profile-share d-flex align-items-center justify-content-center">
+                          <Link to="#;" className="btn btn-success">
+                            Update
+                          </Link>
+                          <Link to="#;" className="btn btn-danger">
+                            Delete
+                          </Link>
                         </div>
                       </div>
-                    </form>
+                      <div className="checkout-form personal-address add-course-info ">
+                        <div className="personal-info-head">
+                          <h4>Personal Details</h4>
+                          <p>Edit your personal information and address.</p>
+                        </div>
+                        <form action="#">
+                          <div className="row">
+                            <div className="col-lg-6">
+                              <div className="form-group">
+                                <label className="form-control-label">
+                                  First Name
+                                </label>
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  placeholder="Enter your first Name"
+                                  defaultValue={studentInfo ? studentInfo.studentFirstName : ""}
+                                />
+                              </div>
+                            </div>
+                            <div className="col-lg-6">
+                              <div className="form-group">
+                                <label className="form-control-label">
+                                  Last Name
+                                </label>
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  placeholder={"Enter your last Name"}
+                                  defaultValue={studentInfo ? studentInfo.studentLastName : ""}
+                                />
+                              </div>
+                            </div>
+                            <div className="col-lg-6">
+                              <div className="form-group">
+                                <label className="form-control-label">Phone</label>
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  placeholder="Enter your Phone"
+                                  defaultValue={studentInfo ? studentInfo.studentPhoneNumber : ""}
+                                />
+                              </div>
+                            </div>
+                            <div className="col-lg-6">
+                              <div className="form-group">
+                                <label className="form-control-label">Email</label>
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  placeholder="Enter your Email"
+                                  defaultValue={studentInfo ? studentInfo.studentEmail : ""}
+                                />
+                              </div>
+                            </div>
+                            <div className="col-lg-6">
+                              <div className="form-group">
+                                <label className="form-control-label">
+                                  Birthday
+                                </label>
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  placeholder="Birth of Date"
+                                  defaultValue={studentInfo ? studentInfo.studentBirthday : ""}
+                                />
+                              </div>
+                            </div>
+                            <div className="col-lg-6">
+                              <div className="form-group">
+                                <label className="form-label">Country</label>
+    
+                                <Select
+                                  className=" select country-select"
+                                  name="sellist1"
+                                  options={options}
+                                  defaultValue={options[0]}
+                                  placeholder="Select Country"
+                                  onChange={setCountry}
+                                  styles={style}
+                                ></Select>
+                              </div>
+                            </div>
+                            <div className="col-lg-6">
+                              <div className="form-group">
+                                <label className="form-control-label">
+                                  Address
+                                </label>
+                                <textarea
+                                  type="text"
+                                  className="form-control"
+                                  placeholder="Address"
+                                  defaultValue={studentInfo ? studentInfo.studentAddress : ""}
+                                />
+                              </div>
+                            </div>
+                            {/* <div className="col-lg-6">
+                              <div className="form-group">
+                                <label className="form-control-label">
+                                  Address Line 2 (Optional)
+                                </label>
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  placeholder="Address"
+                                />
+                              </div>
+                            </div> */}
+                            <div className="col-lg-6">
+                              <div className="form-group">
+                                <label className="form-control-label">City</label>
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  placeholder="Enter your City"
+                                  defaultValue={studentInfo ? studentInfo.studentCity : ""}
+                                />
+                              </div>
+                            </div>
+                            <div className="col-lg-6">
+                              <div className="form-group">
+                                <label className="form-control-label">
+                                  ZipCode
+                                </label>
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  placeholder="Enter your Zipcode"
+                                  defaultValue={studentInfo ? studentInfo.StudentCityZipCode : ""}
+                                />
+                              </div>
+                            </div>
+                            <div className="update-profile">
+                              <button type="button" className="btn btn-primary">
+                                Update Profile
+                              </button>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
                   </div>
                 </div>
+                {/* Profile Details */}
               </div>
             </div>
-            {/* Profile Details */}
           </div>
+          {/* Student Dashboard */}
+          <Footer />
         </div>
-      </div>
-      {/* Student Dashboard */}
-      <Footer />
-    </div>
+      )}
+    </>
   );
 }

@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "paths": {
+    "/instructorDashboard/{instructorID}": {
+      "name": "/instructorDashboard/{instructorID}",
+      "lambdaFunction": "InstructorDashboardAPIHandler",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}
